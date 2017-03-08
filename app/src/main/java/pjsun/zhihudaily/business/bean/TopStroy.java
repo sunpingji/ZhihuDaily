@@ -6,19 +6,20 @@ import java.util.List;
  * Created by sunpingji on 2017/3/7.
  */
 
-public class Story extends BaseBean {
-    private List<String> images;
+public class TopStroy extends BaseBean {
+    private String image;
     private int type;
     private int id;
     private int ga_prefix;
     private String title;
 
-    public List<String> getImages() {
-        return images;
+
+    public String getImage() {
+        return image;
     }
 
-    public void setImages(List<String> images) {
-        this.images = images;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public int getType() {

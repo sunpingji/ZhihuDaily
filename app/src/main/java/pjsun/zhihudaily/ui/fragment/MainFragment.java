@@ -13,6 +13,9 @@ import okhttp3.Call;
 import okhttp3.Response;
 import pjsun.zhihudaily.R;
 import pjsun.zhihudaily.business.api.API;
+import pjsun.zhihudaily.business.bean.NewsResult;
+import pjsun.zhihudaily.business.manager.DataCallBack;
+import pjsun.zhihudaily.business.manager.DataManager;
 import pjsun.zhihudaily.ui.fragment.base.BaseFragment;
 
 /**
@@ -20,6 +23,8 @@ import pjsun.zhihudaily.ui.fragment.base.BaseFragment;
  */
 
 public class MainFragment extends BaseFragment {
+
+    private DataManager dataManager;
 
     @Nullable
     @Override
@@ -31,21 +36,31 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        initViews();
         initData();
     }
 
+    private void initViews() {
+        getActivity().findViewById(R.id.load).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initData();
+            }
+        });
+    }
+
     private void initData() {
-        OkGo.get(API.NEWS).execute(new StringCallback() {
+        dataManager = new DataManager(getActivity());
+        dataManager.getNewsResult(new DataCallBack() {
             @Override
-            public void onSuccess(String s, Call call, Response response) {
+            public void onSuccess(NewsResult result) {
 
             }
 
             @Override
-            public void onError(Call call, Response response, Exception e) {
-                super.onError(call, response, e);
-            }
+            public void onError() {
 
+            }
         });
     }
 }

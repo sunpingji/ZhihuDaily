@@ -42,5 +42,6 @@ dependencies {
     compile group: 'org.apache.lucene', name: 'lucene-core', version: '3.6.2'
     compile group: 'org.apache.lucene', name: 'lucene-queries', version: '3.6.2'
     compile group: 'org.apache.lucene', name: 'lucene-queryparser', version: '3.6.2'
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.3.1'
     testCompile 'junit:junit:4.12'
 }

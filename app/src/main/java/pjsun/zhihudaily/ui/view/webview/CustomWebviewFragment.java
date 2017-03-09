@@ -62,12 +62,12 @@ public class CustomWebviewFragment extends Fragment implements IWebView {
     }
 
     @Override
-    public boolean load(String url) {
-        return false;
+    public void load(String url) {
+        webView.loadUrl(url);
     }
 
     @Override
-    public boolean refresh() {
-        return false;
+    public void refresh() {
+
     }
 }

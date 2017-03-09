@@ -5,9 +5,9 @@ package pjsun.zhihudaily.ui.view.webview;
  */
 
 public interface IWebView {
-    public boolean load(String url);
+    public void load(String url);
 
-    public boolean refresh();
+    public void refresh();
 
 
 }

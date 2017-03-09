@@ -43,8 +43,6 @@ public class CustomWebviewFragment extends Fragment implements IWebView {
     private void setWebSettings(WebSettings webSettings) {
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
-        webSettings.setLoadWithOverviewMode(true);
-        webSettings.setUseWideViewPort(true);
         webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
         webSettings.setAppCacheMaxSize(1024 * 1024 * 8);
         webSettings.setAllowFileAccess(true);
@@ -64,6 +62,12 @@ public class CustomWebviewFragment extends Fragment implements IWebView {
     @Override
     public void load(String url) {
         webView.loadUrl(url);
+
+    }
+
+    @Override
+    public void loadData(String data, String mineType, String encode) {
+        webView.loadData(data,mineType,encode);
     }
 
     @Override

@@ -7,6 +7,8 @@ package pjsun.zhihudaily.ui.view.webview;
 public interface IWebView {
     public void load(String url);
 
+    public void loadData(String data,String mineType,String encode);
+
     public void refresh();
 
 

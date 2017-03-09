@@ -29,7 +29,7 @@ public class NewsDetailResult {
     private String shareUrl;
     @SerializedName("js")
     @Expose
-    private List<Object> js = null;
+    private List<String> js = null;
     @SerializedName("ga_prefix")
     @Expose
     private String gaPrefix;
@@ -86,11 +86,11 @@ public class NewsDetailResult {
         this.shareUrl = shareUrl;
     }
 
-    public List<Object> getJs() {
+    public List<String> getJs() {
         return js;
     }
 
-    public void setJs(List<Object> js) {
+    public void setJs(List<String> js) {
         this.js = js;
     }
 

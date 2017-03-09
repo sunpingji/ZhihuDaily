@@ -14,6 +14,7 @@ import pjsun.zhihudaily.business.manager.DataCallBack;
 import pjsun.zhihudaily.business.manager.DataManager;
 import pjsun.zhihudaily.ui.fragment.base.BaseFragment;
 import pjsun.zhihudaily.ui.view.webview.CustomWebviewFragment;
+import pjsun.zhihudaily.utils.HtmlUtil;
 
 /**
  * Created by sunpingji on 2017/3/9.
@@ -69,7 +70,8 @@ public class DetailFragment extends BaseFragment {
     }
 
     private void onLoadSuccess(NewsDetailResult result) {
-        webviewFragment.load(result.getShareUrl());
+        String htmlData = HtmlUtil.createHtmlData(result.getBody(), result.getCss(), result.getJs());
+        webviewFragment.loadData(htmlData, HtmlUtil.MIME_TYPE, HtmlUtil.ENCODING);
     }
 
     private void onLoadError() {

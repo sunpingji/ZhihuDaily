@@ -2,20 +2,20 @@ package pjsun.zhihudaily.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.callback.StringCallback;
+import com.orhanobut.logger.Logger;
 
-import okhttp3.Call;
-import okhttp3.Response;
 import pjsun.zhihudaily.R;
-import pjsun.zhihudaily.business.api.API;
 import pjsun.zhihudaily.business.bean.NewsResult;
 import pjsun.zhihudaily.business.manager.DataCallBack;
 import pjsun.zhihudaily.business.manager.DataManager;
+import pjsun.zhihudaily.ui.adapter.MainAdapter;
+import pjsun.zhihudaily.ui.adapter.OnRecyclerViewOnClickListener;
 import pjsun.zhihudaily.ui.fragment.base.BaseFragment;
 
 /**
@@ -25,6 +25,10 @@ import pjsun.zhihudaily.ui.fragment.base.BaseFragment;
 public class MainFragment extends BaseFragment {
 
     private DataManager dataManager;
+
+    private RecyclerView recyclerView;
+
+    private MainAdapter mainAdapter;
 
     @Nullable
     @Override
@@ -41,26 +45,48 @@ public class MainFragment extends BaseFragment {
     }
 
     private void initViews() {
-        getActivity().findViewById(R.id.load).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initData();
-            }
-        });
+        recyclerView = (RecyclerView) getView().findViewById(R.id.rv_main);
     }
 
     private void initData() {
         dataManager = new DataManager(getActivity());
+        loadData();
+    }
+
+    private void loadData() {
         dataManager.getNewsResult(new DataCallBack() {
             @Override
             public void onSuccess(NewsResult result) {
-
+                onLoadSuccess(result);
             }
 
             @Override
             public void onError() {
-
+                onLoadError();
             }
         });
+    }
+
+    private void onLoadError() {
+
+    }
+
+    private void onLoadSuccess(final NewsResult result) {
+        if (result.getStories() == null || result.getStories().size() == 0) {
+            onLoadError();
+        } else {
+            if (mainAdapter == null) {
+                mainAdapter = new MainAdapter(getActivity(), result.getStories(), new OnRecyclerViewOnClickListener() {
+                    @Override
+                    public void OnItemClick(View v, int position) {
+                        Logger.d("click " + position + " " + result.getStories().get(position));
+                    }
+                });
+                recyclerView.setAdapter(mainAdapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            } else {
+                mainAdapter.refresh(result.getStories());
+            }
+        }
     }
 }

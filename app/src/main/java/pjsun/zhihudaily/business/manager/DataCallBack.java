@@ -1,14 +1,12 @@
 package pjsun.zhihudaily.business.manager;
 
-import pjsun.zhihudaily.business.bean.NewsResult;
-
 /**
  * Created by sunpingji on 2017/3/8.
  */
 
-public interface DataCallBack {
+public interface DataCallBack<T> {
 
-    public void onSuccess(NewsResult result);
+    public void onSuccess(T result);
 
     public void onError();
 

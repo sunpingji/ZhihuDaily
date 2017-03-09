@@ -9,10 +9,9 @@ import java.util.List;
 public class TopStroy extends BaseBean {
     private String image;
     private int type;
-    private int id;
+    private String id;
     private int ga_prefix;
     private String title;
-
 
     public String getImage() {
         return image;
@@ -30,11 +29,11 @@ public class TopStroy extends BaseBean {
         this.type = type;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

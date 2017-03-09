@@ -12,8 +12,10 @@ import com.orhanobut.logger.Logger;
 
 import pjsun.zhihudaily.R;
 import pjsun.zhihudaily.business.bean.NewsResult;
+import pjsun.zhihudaily.business.bean.Story;
 import pjsun.zhihudaily.business.manager.DataCallBack;
 import pjsun.zhihudaily.business.manager.DataManager;
+import pjsun.zhihudaily.ui.activity.DetailActivity;
 import pjsun.zhihudaily.ui.adapter.MainAdapter;
 import pjsun.zhihudaily.ui.adapter.OnRecyclerViewOnClickListener;
 import pjsun.zhihudaily.ui.fragment.base.BaseFragment;
@@ -54,7 +56,7 @@ public class MainFragment extends BaseFragment {
     }
 
     private void loadData() {
-        dataManager.getNewsResult(new DataCallBack() {
+        dataManager.getNewsResult(new DataCallBack<NewsResult>() {
             @Override
             public void onSuccess(NewsResult result) {
                 onLoadSuccess(result);
@@ -79,7 +81,10 @@ public class MainFragment extends BaseFragment {
                 mainAdapter = new MainAdapter(getActivity(), result.getStories(), new OnRecyclerViewOnClickListener() {
                     @Override
                     public void OnItemClick(View v, int position) {
-                        Logger.d("click " + position + " " + result.getStories().get(position));
+                        Story story = result.getStories().get(position);
+                        if (story != null) {
+                            DetailActivity.start(getActivity(), story.getId());
+                        }
                     }
                 });
                 recyclerView.setAdapter(mainAdapter);

@@ -9,6 +9,7 @@ import com.lzy.okgo.callback.StringCallback;
 import okhttp3.Call;
 import okhttp3.Response;
 import pjsun.zhihudaily.business.api.API;
+import pjsun.zhihudaily.business.bean.NewsDetailResult;
 import pjsun.zhihudaily.business.bean.NewsResult;
 
 /**
@@ -42,6 +43,26 @@ public class DataManager implements IDataManage {
             });
         }else {
             loadLocal(dataCallBack);
+        }
+    }
+
+    @Override
+    public void getNewsDetailResult(String id, final DataCallBack dataCallBack) {
+        if (NetworkUtils.isConnected()){
+            OkGo.get(API.DETAILS+id).execute(new StringCallback() {
+                @Override
+                public void onSuccess(String s, Call call, Response response) {
+                    NewsDetailResult result = NewsDetailResult.convertToResult(s);
+                    dataCallBack.onSuccess(result);
+                }
+
+                @Override
+                public void onError(Call call, Response response, Exception e) {
+                    dataCallBack.onError();
+                }
+            });
+        }else {
+            dataCallBack.onError();
         }
     }
 

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface DataCallBack<T> {
 
-    public void onSuccess(List<T> result);
+    public void onSuccess(T result);
 
     public void onError();
 

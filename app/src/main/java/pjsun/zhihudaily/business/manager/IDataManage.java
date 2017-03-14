@@ -6,7 +6,7 @@ package pjsun.zhihudaily.business.manager;
 
 public interface IDataManage {
 
-    public void getNewsResult(DataCallBack dataCallBack);
+    public void getNewsResult(String date, DataCallBack dataCallBack);
 
     public void getNewsDetailResult(String id, DataCallBack dataCallBack);
 }

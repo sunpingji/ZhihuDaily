@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.blankj.utilcode.utils.TimeUtils;
 import com.orhanobut.logger.Logger;
 
 import java.util.List;
@@ -58,10 +59,10 @@ public class MainFragment extends BaseFragment {
     }
 
     private void loadData() {
-        dataManager.getNewsResult(new DataCallBack<NewsResult>() {
+        dataManager.getNewsResult(null,new DataCallBack<NewsResult>() {
             @Override
-            public void onSuccess(List<NewsResult> list) {
-                onLoadSuccess(list);
+            public void onSuccess(NewsResult result) {
+                onLoadSuccess(result);
             }
 
             @Override
@@ -75,8 +76,7 @@ public class MainFragment extends BaseFragment {
 
     }
 
-    private void onLoadSuccess(final List<NewsResult> list) {
-        final NewsResult result = list.get(0);
+    private void onLoadSuccess(final NewsResult result) {
         if (result.getStories() == null || result.getStories().size() == 0) {
             onLoadError();
         } else {

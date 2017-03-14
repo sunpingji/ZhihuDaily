@@ -10,6 +10,6 @@ public class API {
 
     public static final String DETAILS = "http://news-at.zhihu.com/api/4/news/";
 
-    public static final String HISTROY = "http://news-at.zhihu.com/api/4/news/before/";
+    public static final String BEFORE = "http://news-at.zhihu.com/api/4/news/before/";
 
 }

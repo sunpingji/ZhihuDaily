@@ -60,8 +60,8 @@ public class DetailFragment extends BaseFragment {
     private void loadData() {
         dataManager.getNewsDetailResult(id, new DataCallBack<NewsDetailResult>() {
             @Override
-            public void onSuccess(List<NewsDetailResult> list) {
-                onLoadSuccess(list);
+            public void onSuccess(NewsDetailResult result) {
+                onLoadSuccess(result);
             }
 
             @Override
@@ -71,8 +71,7 @@ public class DetailFragment extends BaseFragment {
         });
     }
 
-    private void onLoadSuccess(List<NewsDetailResult> list) {
-        NewsDetailResult result = list.get(0);
+    private void onLoadSuccess(NewsDetailResult result) {
         String htmlData = HtmlUtil.createHtmlData(result.getBody(), result.getCss(), result.getJs());
         webviewFragment.loadData(htmlData, HtmlUtil.MIME_TYPE, HtmlUtil.ENCODING);
     }

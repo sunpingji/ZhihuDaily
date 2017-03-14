@@ -1,21 +1,24 @@
 package pjsun.zhihudaily.business.bean;
 
 import com.google.gson.Gson;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
-
-import okhttp3.Response;
 
 /**
  * Created by sunpingji on 2017/3/8.
  */
 
 public class NewsResult extends BaseBean {
-
+    @SerializedName("stories")
+    @Expose
     private List<Story> stories;
-
-    private List<TopStroy> top_stories;
-
+    @SerializedName("top_stories")
+    @Expose
+    private List<TopStroy> topStories;
+    @SerializedName("date")
+    @Expose
     private String date;
 
     public List<Story> getStories() {
@@ -27,11 +30,11 @@ public class NewsResult extends BaseBean {
     }
 
     public List<TopStroy> getTopStroys() {
-        return top_stories;
+        return topStories;
     }
 
     public void setTopStroys(List<TopStroy> topStroys) {
-        this.top_stories = topStroys;
+        this.topStories = topStroys;
     }
 
     public String getDate() {

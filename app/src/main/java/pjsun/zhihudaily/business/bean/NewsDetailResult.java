@@ -10,7 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class NewsDetailResult {
+public class NewsDetailResult extends BaseBean {
 
     @SerializedName("body")
     @Expose

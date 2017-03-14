@@ -6,6 +6,8 @@ import com.blankj.utilcode.utils.Utils;
 import com.lzy.okgo.OkGo;
 import com.orhanobut.logger.Logger;
 
+import org.litepal.LitePal;
+
 /**
  * Created by sunpingji on 2017/3/7.
  */
@@ -18,5 +20,6 @@ public class MainApplication extends Application {
         OkGo.init(this);
         Logger.init();
         Utils.init(this);
+        LitePal.initialize(this);
     }
 }

@@ -6,6 +6,9 @@ import com.blankj.utilcode.utils.NetworkUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import okhttp3.Call;
 import okhttp3.Response;
 import pjsun.zhihudaily.business.api.API;
@@ -31,7 +34,9 @@ public class DataManager implements IDataManage {
                 @Override
                 public void onSuccess(String s, Call call, Response response) {
                     NewsResult result = NewsResult.convertToResult(s);
-                    dataCallBack.onSuccess(result);
+                    List<NewsResult> list = new ArrayList<NewsResult>();
+                    list.add(result);
+                    dataCallBack.onSuccess(list);
                     saveResult(result);
                     indexResult(result);
                 }
@@ -53,7 +58,9 @@ public class DataManager implements IDataManage {
                 @Override
                 public void onSuccess(String s, Call call, Response response) {
                     NewsDetailResult result = NewsDetailResult.convertToResult(s);
-                    dataCallBack.onSuccess(result);
+                    List<NewsDetailResult> list = new ArrayList<NewsDetailResult>();
+                    list.add(result);
+                    dataCallBack.onSuccess(list);
                 }
 
                 @Override
@@ -76,6 +83,6 @@ public class DataManager implements IDataManage {
     }
 
     private void saveResult(NewsResult result) {
-
+        result.save();
     }
 }

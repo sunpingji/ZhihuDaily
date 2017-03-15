@@ -8,13 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.blankj.utilcode.utils.TimeUtils;
-import com.orhanobut.logger.Logger;
-
-import java.util.List;
-
 import pjsun.zhihudaily.R;
-import pjsun.zhihudaily.business.bean.NewsResult;
+import pjsun.zhihudaily.business.bean.DailyResult;
 import pjsun.zhihudaily.business.bean.Story;
 import pjsun.zhihudaily.business.manager.DataCallBack;
 import pjsun.zhihudaily.business.manager.DataManager;
@@ -59,9 +54,9 @@ public class MainFragment extends BaseFragment {
     }
 
     private void loadData() {
-        dataManager.getNewsResult(null,new DataCallBack<NewsResult>() {
+        dataManager.getDailyResult(null,new DataCallBack<DailyResult>() {
             @Override
-            public void onSuccess(NewsResult result) {
+            public void onSuccess(DailyResult result) {
                 onLoadSuccess(result);
             }
 
@@ -76,7 +71,7 @@ public class MainFragment extends BaseFragment {
 
     }
 
-    private void onLoadSuccess(final NewsResult result) {
+    private void onLoadSuccess(final DailyResult result) {
         if (result.getStories() == null || result.getStories().size() == 0) {
             onLoadError();
         } else {

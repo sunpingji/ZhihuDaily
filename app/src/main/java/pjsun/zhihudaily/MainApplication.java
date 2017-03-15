@@ -3,6 +3,7 @@ package pjsun.zhihudaily;
 import android.app.Application;
 
 import com.blankj.utilcode.utils.Utils;
+import com.facebook.stetho.Stetho;
 import com.lzy.okgo.OkGo;
 import com.orhanobut.logger.Logger;
 
@@ -21,5 +22,6 @@ public class MainApplication extends Application {
         Logger.init();
         Utils.init(this);
         LitePal.initialize(this);
+        Stetho.initializeWithDefaults(this);
     }
 }

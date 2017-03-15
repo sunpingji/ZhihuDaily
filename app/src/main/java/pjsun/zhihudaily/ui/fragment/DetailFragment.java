@@ -7,11 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
-
 import pjsun.zhihudaily.Constant;
 import pjsun.zhihudaily.R;
-import pjsun.zhihudaily.business.bean.NewsDetailResult;
+import pjsun.zhihudaily.business.bean.StoryDetailResult;
 import pjsun.zhihudaily.business.manager.DataCallBack;
 import pjsun.zhihudaily.business.manager.DataManager;
 import pjsun.zhihudaily.ui.fragment.base.BaseFragment;
@@ -58,9 +56,9 @@ public class DetailFragment extends BaseFragment {
     }
 
     private void loadData() {
-        dataManager.getNewsDetailResult(id, new DataCallBack<NewsDetailResult>() {
+        dataManager.getStoryDetailResult(id, new DataCallBack<StoryDetailResult>() {
             @Override
-            public void onSuccess(NewsDetailResult result) {
+            public void onSuccess(StoryDetailResult result) {
                 onLoadSuccess(result);
             }
 
@@ -71,7 +69,7 @@ public class DetailFragment extends BaseFragment {
         });
     }
 
-    private void onLoadSuccess(NewsDetailResult result) {
+    private void onLoadSuccess(StoryDetailResult result) {
         String htmlData = HtmlUtil.createHtmlData(result.getBody(), result.getCss(), result.getJs());
         webviewFragment.loadData(htmlData, HtmlUtil.MIME_TYPE, HtmlUtil.ENCODING);
     }

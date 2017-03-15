@@ -10,7 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class NewsDetailResult extends BaseBean {
+public class StoryDetailResult extends BaseBean {
 
     @SerializedName("body")
     @Expose
@@ -134,11 +134,11 @@ public class NewsDetailResult extends BaseBean {
         this.css = css;
     }
 
-    public static NewsDetailResult convertToResult(String s) {
-        NewsDetailResult result = new NewsDetailResult();
+    public static StoryDetailResult convertToResult(String s) {
+        StoryDetailResult result = new StoryDetailResult();
         try {
             Gson gson = new Gson();
-            result = gson.fromJson(s, NewsDetailResult.class);
+            result = gson.fromJson(s, StoryDetailResult.class);
         } catch (Exception e) {
             e.printStackTrace();
         }

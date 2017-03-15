@@ -9,14 +9,13 @@ import com.lzy.okgo.callback.StringCallback;
 
 import org.litepal.crud.DataSupport;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Response;
 import pjsun.zhihudaily.business.api.API;
-import pjsun.zhihudaily.business.bean.NewsDetailResult;
-import pjsun.zhihudaily.business.bean.NewsResult;
+import pjsun.zhihudaily.business.bean.StoryDetailResult;
+import pjsun.zhihudaily.business.bean.DailyResult;
 import pjsun.zhihudaily.utils.ZhihuDateUtils;
 
 /**
@@ -32,7 +31,7 @@ public class DataManager implements IDataManage {
 
 
     @Override
-    public void getNewsResult(String date, final DataCallBack dataCallBack) {
+    public void getDailyResult(String date, final DataCallBack dataCallBack) {
         if (TextUtils.isEmpty(date)) {
             queryNew(dataCallBack);
         } else {
@@ -41,7 +40,7 @@ public class DataManager implements IDataManage {
     }
 
     private void queryBefore(String date, final DataCallBack dataCallBack) {
-        List<NewsResult> list = DataSupport.where("date = ?", date).find(NewsResult.class);
+        List<DailyResult> list = DataSupport.where("date = ?", date).find(DailyResult.class);
         if (list != null && list.size() > 0) {
             dataCallBack.onSuccess(list.get(0));
         } else {
@@ -49,7 +48,7 @@ public class DataManager implements IDataManage {
                 OkGo.get(API.BEFORE + date).execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        NewsResult result = NewsResult.convertToResult(s);
+                        DailyResult result = DailyResult.convertToResult(s);
                         dataCallBack.onSuccess(result);
                         saveResult(result);
                         indexResult(result);
@@ -72,10 +71,9 @@ public class DataManager implements IDataManage {
             OkGo.get(API.NEWS).execute(new StringCallback() {
                 @Override
                 public void onSuccess(String s, Call call, Response response) {
-                    NewsResult result = NewsResult.convertToResult(s);
+                    DailyResult result = DailyResult.convertToResult(s);
                     dataCallBack.onSuccess(result);
                     saveResult(result);
-                    indexResult(result);
                 }
 
                 @Override
@@ -89,12 +87,12 @@ public class DataManager implements IDataManage {
     }
 
     @Override
-    public void getNewsDetailResult(String id, final DataCallBack dataCallBack) {
+    public void getStoryDetailResult(String id, final DataCallBack dataCallBack) {
         if (NetworkUtils.isConnected()) {
             OkGo.get(API.DETAILS + id).execute(new StringCallback() {
                 @Override
                 public void onSuccess(String s, Call call, Response response) {
-                    NewsDetailResult result = NewsDetailResult.convertToResult(s);
+                    StoryDetailResult result = StoryDetailResult.convertToResult(s);
 
 
                     dataCallBack.onSuccess(result);
@@ -115,13 +113,13 @@ public class DataManager implements IDataManage {
     }
 
 
-    private void indexResult(NewsResult result) {
+    private void indexResult(DailyResult result) {
 
     }
 
-    private void saveResult(NewsResult result) {
+    private void saveResult(DailyResult result) {
         String date = result.getDate();
-        List<NewsResult> list = DataSupport.where("date = ?", date).find(NewsResult.class);
+        List<DailyResult> list = DataSupport.where("date = ?", date).find(DailyResult.class);
         if (list == null || list.size() == 0) {
             result.save();
         } else {

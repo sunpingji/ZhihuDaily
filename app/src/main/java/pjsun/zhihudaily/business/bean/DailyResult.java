@@ -10,16 +10,19 @@ import java.util.List;
  * Created by sunpingji on 2017/3/8.
  */
 
-public class NewsResult extends BaseBean {
+public class DailyResult extends BaseBean {
     @SerializedName("stories")
     @Expose
     private List<Story> stories;
     @SerializedName("top_stories")
     @Expose
-    private List<TopStroy> topStories;
+    private List<TopStory> topStories;
     @SerializedName("date")
     @Expose
     private String date;
+
+    private String oriJson;
+
 
     public List<Story> getStories() {
         return stories;
@@ -29,12 +32,12 @@ public class NewsResult extends BaseBean {
         this.stories = stories;
     }
 
-    public List<TopStroy> getTopStroys() {
+    public List<TopStory> getTopStories() {
         return topStories;
     }
 
-    public void setTopStroys(List<TopStroy> topStroys) {
-        this.topStories = topStroys;
+    public void setTopStories(List<TopStory> topStories) {
+        this.topStories = topStories;
     }
 
     public String getDate() {
@@ -45,11 +48,20 @@ public class NewsResult extends BaseBean {
         this.date = date;
     }
 
-    public static NewsResult convertToResult(String s) {
-        NewsResult result = new NewsResult();
+    public String getOriJson() {
+        return oriJson;
+    }
+
+    public void setOriJson(String oriJson) {
+        this.oriJson = oriJson;
+    }
+
+    public static DailyResult convertToResult(String s) {
+        DailyResult result = new DailyResult();
         try {
             Gson gson = new Gson();
-            result = gson.fromJson(s, NewsResult.class);
+            result = gson.fromJson(s, DailyResult.class);
+            result.setOriJson(s);
         } catch (Exception e) {
             e.printStackTrace();
         }

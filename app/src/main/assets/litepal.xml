@@ -32,8 +32,8 @@
         </list>
     -->
     <list>
-        <mapping class="pjsun.zhihudaily.business.bean.NewsResult" />
-        <mapping class="pjsun.zhihudaily.business.bean.NewsDetailResult" />
+        <mapping class="pjsun.zhihudaily.business.bean.DailyResult" />
+        <mapping class="pjsun.zhihudaily.business.bean.StoryDetailResult" />
     </list>
 
     <!--

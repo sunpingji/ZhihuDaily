@@ -6,7 +6,7 @@ import java.util.List;
  * Created by sunpingji on 2017/3/7.
  */
 
-public class TopStroy extends BaseBean {
+public class TopStory extends BaseBean {
     private String image;
     private int type;
     private String id;

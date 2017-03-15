@@ -40,9 +40,9 @@ public class DataManager implements IDataManage {
     }
 
     private void queryBefore(String date, final DataCallBack dataCallBack) {
-        List<DailyResult> list = DataSupport.where("date = ?", date).find(DailyResult.class);
-        if (list != null && list.size() > 0) {
-            dataCallBack.onSuccess(list.get(0));
+        DailyResult localResult = loadLocal(ZhihuDateUtils.getDayBefore(date));
+        if (localResult != null) {
+            dataCallBack.onSuccess(localResult);
         } else {
             if (NetworkUtils.isConnected()) {
                 OkGo.get(API.BEFORE + date).execute(new StringCallback() {
@@ -51,19 +51,17 @@ public class DataManager implements IDataManage {
                         DailyResult result = DailyResult.convertToResult(s);
                         dataCallBack.onSuccess(result);
                         saveResult(result);
-                        indexResult(result);
                     }
 
                     @Override
                     public void onError(Call call, Response response, Exception e) {
-                        loadLocal(dataCallBack);
+                        dataCallBack.onError();
                     }
                 });
             } else {
                 dataCallBack.onError();
             }
         }
-
     }
 
     private void queryNew(final DataCallBack dataCallBack) {
@@ -78,11 +76,16 @@ public class DataManager implements IDataManage {
 
                 @Override
                 public void onError(Call call, Response response, Exception e) {
-                    loadLocal(dataCallBack);
+                    dataCallBack.onError();
                 }
             });
         } else {
-            loadLocal(dataCallBack);
+            DailyResult localResult = loadLocal(ZhihuDateUtils.getToday());
+            if (localResult != null) {
+                dataCallBack.onSuccess(localResult);
+            } else {
+                dataCallBack.onError();
+            }
         }
     }
 
@@ -93,8 +96,6 @@ public class DataManager implements IDataManage {
                 @Override
                 public void onSuccess(String s, Call call, Response response) {
                     StoryDetailResult result = StoryDetailResult.convertToResult(s);
-
-
                     dataCallBack.onSuccess(result);
                 }
 
@@ -108,8 +109,13 @@ public class DataManager implements IDataManage {
         }
     }
 
-    private void loadLocal(DataCallBack dataCallBack) {
-
+    private DailyResult loadLocal(String date) {
+        List<DailyResult> list = DataSupport.where("date = ?", date).find(DailyResult.class);
+        if (list != null && list.size() > 0) {
+            return DailyResult.convertToResult(list.get(0).getOriJson());
+        } else {
+            return null;
+        }
     }
 
 

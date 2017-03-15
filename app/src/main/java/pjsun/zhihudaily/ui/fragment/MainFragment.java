@@ -8,6 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import pjsun.zhihudaily.R;
 import pjsun.zhihudaily.business.bean.DailyResult;
 import pjsun.zhihudaily.business.bean.Story;
@@ -26,9 +31,13 @@ public class MainFragment extends BaseFragment {
 
     private DataManager dataManager;
 
-    private RecyclerView recyclerView;
+    private PullLoadMoreRecyclerView recyclerView;
 
     private MainAdapter mainAdapter;
+
+    private String date;
+
+    private List<Story> stories;
 
     @Nullable
     @Override
@@ -45,16 +54,29 @@ public class MainFragment extends BaseFragment {
     }
 
     private void initViews() {
-        recyclerView = (RecyclerView) getView().findViewById(R.id.rv_main);
+        recyclerView = (PullLoadMoreRecyclerView) getView().findViewById(R.id.rv_main);
     }
 
     private void initData() {
         dataManager = new DataManager(getActivity());
+        stories = new ArrayList<Story>();
+        mainAdapter = new MainAdapter(getActivity(), stories, new OnRecyclerViewOnClickListener() {
+            @Override
+            public void OnItemClick(View v, int position) {
+                Story story = stories.get(position);
+                if (story != null) {
+                    DetailActivity.start(getActivity(), story.getId());
+                }
+            }
+        });
+        recyclerView.setAdapter(mainAdapter);
+        recyclerView.setLinearLayout();
+        recyclerView.setOnPullLoadMoreListener(loadMoreListener);
         loadData();
     }
 
     private void loadData() {
-        dataManager.getDailyResult(null,new DataCallBack<DailyResult>() {
+        dataManager.getDailyResult(date, new DataCallBack<DailyResult>() {
             @Override
             public void onSuccess(DailyResult result) {
                 onLoadSuccess(result);
@@ -68,28 +90,61 @@ public class MainFragment extends BaseFragment {
     }
 
     private void onLoadError() {
+        recyclerView.setRefreshing(false);
+        recyclerView.setPullLoadMoreCompleted();
+        if (stories == null || stories.size() == 0) {
+            showErrorNoDataPage();
+        }
+    }
+
+    private void showErrorNoDataPage() {
 
     }
 
     private void onLoadSuccess(final DailyResult result) {
-        if (result.getStories() == null || result.getStories().size() == 0) {
-            onLoadError();
-        } else {
-            if (mainAdapter == null) {
-                mainAdapter = new MainAdapter(getActivity(), result.getStories(), new OnRecyclerViewOnClickListener() {
-                    @Override
-                    public void OnItemClick(View v, int position) {
-                        Story story = result.getStories().get(position);
-                        if (story != null) {
-                            DetailActivity.start(getActivity(), story.getId());
-                        }
-                    }
-                });
-                recyclerView.setAdapter(mainAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        if (recyclerView.isRefresh()) {
+            recyclerView.setRefreshing(false);
+            if (isResultValid(result)) {
+                stories = result.getStories();
+                mainAdapter.notifyDataSetChanged();
             } else {
-                mainAdapter.refresh(result.getStories());
+                onLoadError();
+            }
+        } else {
+            if (recyclerView.isLoadMore()) {
+                recyclerView.setPullLoadMoreCompleted();
+            }
+            if (isResultValid(result)) {
+                date = result.getDate();
+                List<Story> tmp = result.getStories();
+                if (tmp != null && tmp.size() > 0) {
+                    stories.addAll(tmp);
+                    mainAdapter.notifyDataSetChanged();
+                }
+            } else {
+                onLoadError();
             }
         }
+
     }
+
+    private boolean isResultValid(DailyResult result) {
+        if (result == null || result.getStories() == null || result.getStories().size() == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private PullLoadMoreRecyclerView.PullLoadMoreListener loadMoreListener = new PullLoadMoreRecyclerView.PullLoadMoreListener() {
+        @Override
+        public void onRefresh() {
+            loadData();
+        }
+
+        @Override
+        public void onLoadMore() {
+            loadData();
+        }
+    };
 }

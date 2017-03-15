@@ -4,6 +4,7 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -18,9 +19,11 @@ import org.apache.lucene.util.Version;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import pjsun.zhihudaily.business.bean.DailyResult;
+import pjsun.zhihudaily.business.bean.SearchResult;
 import pjsun.zhihudaily.business.bean.Story;
 
 /**
@@ -79,23 +82,42 @@ public class LuceneManager {
 
     }
 
-    public void search(String name) {
+    public SearchResult search(String name) {
+        SearchResult result = new SearchResult();
         try {
             IndexReader ireader = IndexReader.open(directory); // read-only=true
             IndexSearcher isearcher = new IndexSearcher(ireader);
-            //
+
             QueryParser parser = new QueryParser(Version.LUCENE_CURRENT, TITLE, analyzer);
             Query query = parser.parse(name);
             ScoreDoc[] hits = isearcher.search(query, null, 1000).scoreDocs;
-
+            List<Story> stories = new ArrayList<>();
             for (int i = 0; i < hits.length; i++) {
                 Document hitDoc = isearcher.doc(hits[i].doc);
+                stories.add(castToStory(hitDoc));
             }
+            result.setStories(stories);
             isearcher.close();
             ireader.close();
-        } catch (Exception e) {
+        } catch (CorruptIndexException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
+        return result;
     }
+
+    private Story castToStory(Document hitDoc) {
+        Story story = new Story();
+        story.setId(hitDoc.get(ID));
+        story.setTitle(hitDoc.get(TITLE));
+        List<String> images = new ArrayList<>();
+        images.add(hitDoc.get(IMAGE));
+        story.setImages(images);
+        return story;
+    }
+
+
 }

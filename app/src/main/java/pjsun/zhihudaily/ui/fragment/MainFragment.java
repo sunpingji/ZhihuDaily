@@ -19,6 +19,7 @@ import pjsun.zhihudaily.business.bean.Story;
 import pjsun.zhihudaily.business.manager.DataCallBack;
 import pjsun.zhihudaily.business.manager.DataManager;
 import pjsun.zhihudaily.ui.activity.DetailActivity;
+import pjsun.zhihudaily.ui.activity.GlobalSearchActivity;
 import pjsun.zhihudaily.ui.adapter.MainAdapter;
 import pjsun.zhihudaily.ui.adapter.OnRecyclerViewOnClickListener;
 import pjsun.zhihudaily.ui.fragment.base.BaseFragment;
@@ -55,6 +56,12 @@ public class MainFragment extends BaseFragment {
 
     private void initViews() {
         recyclerView = (PullLoadMoreRecyclerView) getView().findViewById(R.id.rv_main);
+        getView().findViewById(R.id.search).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GlobalSearchActivity.start(getActivity());
+            }
+        });
     }
 
     private void initData() {

@@ -9,6 +9,7 @@ import com.lzy.okgo.callback.StringCallback;
 
 import org.litepal.crud.DataSupport;
 
+import java.io.IOException;
 import java.util.List;
 
 import okhttp3.Call;
@@ -16,6 +17,7 @@ import okhttp3.Response;
 import pjsun.zhihudaily.business.api.API;
 import pjsun.zhihudaily.business.bean.StoryDetailResult;
 import pjsun.zhihudaily.business.bean.DailyResult;
+import pjsun.zhihudaily.business.search.LuceneManager;
 import pjsun.zhihudaily.utils.ZhihuDateUtils;
 
 /**
@@ -120,7 +122,7 @@ public class DataManager implements IDataManage {
 
 
     private void indexResult(DailyResult result) {
-
+        LuceneManager.getInstance().addIndex(result);
     }
 
     private void saveResult(DailyResult result) {
@@ -128,10 +130,12 @@ public class DataManager implements IDataManage {
         List<DailyResult> list = DataSupport.where("date = ?", date).find(DailyResult.class);
         if (list == null || list.size() == 0) {
             result.save();
+            indexResult(result);
         } else {
             if (ZhihuDateUtils.isToday(date)) {
                 long id = list.get(0).getBaseObjId();
                 result.update(id);
+                indexResult(result);
             }
         }
     }

@@ -5,7 +5,6 @@ import android.app.Application;
 import com.blankj.utilcode.utils.Utils;
 import com.facebook.stetho.Stetho;
 import com.lzy.okgo.OkGo;
-import com.orhanobut.logger.Logger;
 
 import org.litepal.LitePal;
 
@@ -19,7 +18,6 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
         OkGo.init(this);
-        Logger.init();
         Utils.init(this);
         LitePal.initialize(this);
         Stetho.initializeWithDefaults(this);

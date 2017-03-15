@@ -12,6 +12,7 @@ import pjsun.zhihudaily.R;
 import pjsun.zhihudaily.business.bean.StoryDetailResult;
 import pjsun.zhihudaily.business.manager.DataCallBack;
 import pjsun.zhihudaily.business.manager.DataManager;
+import pjsun.zhihudaily.business.search.LuceneManager;
 import pjsun.zhihudaily.ui.fragment.base.BaseFragment;
 import pjsun.zhihudaily.ui.view.webview.CustomWebviewFragment;
 import pjsun.zhihudaily.utils.HtmlUtil;
@@ -47,6 +48,7 @@ public class DetailFragment extends BaseFragment {
 
     private void initData() {
         id = getActivity().getIntent().getStringExtra(Constant.Extra.EXTRA_ID);
+        LuceneManager.getInstance().search("瞎扯");
         dataManager = new DataManager(getActivity());
         if (TextUtils.isEmpty(id)) {
             onLoadError();

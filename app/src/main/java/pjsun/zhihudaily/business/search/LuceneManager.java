@@ -93,7 +93,6 @@ public class LuceneManager {
             }
             isearcher.close();
             ireader.close();
-            directory.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,6 +1,7 @@
 package pjsun.zhihudaily.ui.activity;
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -8,6 +9,10 @@ import android.view.MenuItem;
 import pjsun.zhihudaily.R;
 import pjsun.zhihudaily.ui.activity.base.BaseActivity;
 import pjsun.zhihudaily.ui.fragment.MainFragment;
+
+import static android.support.v7.app.AppCompatDelegate.MODE_NIGHT_AUTO;
+import static android.support.v7.app.AppCompatDelegate.MODE_NIGHT_NO;
+import static android.support.v7.app.AppCompatDelegate.MODE_NIGHT_YES;
 
 public class MainActivity extends BaseActivity {
 
@@ -36,6 +41,11 @@ public class MainActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.action_search:
                 GlobalSearchActivity.start(this);
+                return true;
+            case R.id.action_settings:
+                int mode = AppCompatDelegate.getDefaultNightMode() == MODE_NIGHT_YES ? MODE_NIGHT_NO : MODE_NIGHT_YES;
+                AppCompatDelegate.setDefaultNightMode(mode);
+                recreate();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

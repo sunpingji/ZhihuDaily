@@ -6,15 +6,11 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="actionBarStyle">@style/ActionBarStyle</item>
     </style>
 
     <style name="ActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
         <item name="android:homeAsUpIndicator">@mipmap/ic_arrow_back</item>
     </style>
 
-    <style name="NightTheme" parent="Theme.AppCompat.DayNight">
-        <!-- Blah blah -->
-    </style>
 
 </resources>

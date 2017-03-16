@@ -104,7 +104,7 @@ public class MainFragment extends BaseFragment {
 
     private void onLoadSuccess(final DailyResult result) {
         if (recyclerView.isRefresh()) {
-            recyclerView.setRefreshing(false);
+            recyclerView.setPullLoadMoreCompleted();
             if (isResultValid(result)) {
                 stories = result.getStories();
                 mainAdapter.notifyDataSetChanged();

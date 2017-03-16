@@ -56,12 +56,6 @@ public class MainFragment extends BaseFragment {
 
     private void initViews() {
         recyclerView = (PullLoadMoreRecyclerView) getView().findViewById(R.id.rv_main);
-        getView().findViewById(R.id.search).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GlobalSearchActivity.start(getActivity());
-            }
-        });
     }
 
     private void initData() {

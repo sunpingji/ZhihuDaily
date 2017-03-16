@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -20,6 +23,8 @@ import pjsun.zhihudaily.business.manager.DataCallBack;
 import pjsun.zhihudaily.business.manager.DataManager;
 import pjsun.zhihudaily.business.search.LuceneManager;
 import pjsun.zhihudaily.ui.activity.DetailActivity;
+import pjsun.zhihudaily.ui.activity.GlobalSearchActivity;
+import pjsun.zhihudaily.ui.activity.base.BaseActivity;
 import pjsun.zhihudaily.ui.adapter.MainAdapter;
 import pjsun.zhihudaily.ui.adapter.OnRecyclerViewOnClickListener;
 import pjsun.zhihudaily.ui.fragment.base.BaseFragment;
@@ -54,9 +59,12 @@ public class GlobalSearchFragment extends BaseFragment {
         initData();
     }
 
-    private void initViews() {
-        recyclerView = (PullLoadMoreRecyclerView) getView().findViewById(R.id.rv_main);
-        searchView = (SearchView) getView().findViewById(R.id.search_view);
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        MenuItem item = menu.findItem(R.id.action_search);
+        searchView = (SearchView) item.getActionView();
+        searchView.onActionViewExpanded();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -73,6 +81,23 @@ public class GlobalSearchFragment extends BaseFragment {
             }
         });
 
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void initViews() {
+        setHasOptionsMenu(true);
+        recyclerView = (PullLoadMoreRecyclerView) getView().findViewById(R.id.rv_main);
     }
 
     private void initData() {

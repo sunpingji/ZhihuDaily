@@ -3,6 +3,9 @@ package pjsun.zhihudaily.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 import pjsun.zhihudaily.R;
 import pjsun.zhihudaily.ui.activity.base.BaseActivity;
@@ -21,6 +24,13 @@ public class GlobalSearchActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_global_search);
         initData();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
 

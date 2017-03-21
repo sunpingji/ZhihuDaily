@@ -121,7 +121,10 @@ public class DataManager implements IDataManage {
     }
 
 
-    private void indexResult(DailyResult result) {
+    private void indexResult(DailyResult result, boolean needUpdate) {
+        if (needUpdate) {
+            LuceneManager.getInstance().deleteIndex(result.getDate());
+        }
         LuceneManager.getInstance().addIndex(result);
     }
 
@@ -130,12 +133,12 @@ public class DataManager implements IDataManage {
         List<DailyResult> list = DataSupport.where("date = ?", date).find(DailyResult.class);
         if (list == null || list.size() == 0) {
             result.save();
-            indexResult(result);
+            indexResult(result, false);
         } else {
             if (ZhihuDateUtils.isToday(date)) {
                 long id = list.get(0).getBaseObjId();
                 result.update(id);
-                indexResult(result);
+                indexResult(result, true);
             }
         }
     }

@@ -26,6 +26,7 @@ allprojects {
         maven {
             url "https://mvnrepository.com/artifact/org.apache.lucene/lucene-core"
         }
+        maven { url "https://jitpack.io" }
     }
 }
 
@@ -48,5 +49,7 @@ dependencies {
     compile 'org.litepal.android:core:1.5.0'
     compile 'com.facebook.stetho:stetho:1.4.2'
     compile 'com.wuxiaolong.pullloadmorerecyclerview:library:1.1.2'
+    compile 'com.tencent.bugly:crashreport:latest.release'
+    compile 'com.github.jrvansuita:MaterialAbout:+'
     testCompile 'junit:junit:4.12'
 }

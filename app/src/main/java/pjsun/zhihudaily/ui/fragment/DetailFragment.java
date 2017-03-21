@@ -48,7 +48,6 @@ public class DetailFragment extends BaseFragment {
 
     private void initData() {
         id = getActivity().getIntent().getStringExtra(Constant.Extra.EXTRA_ID);
-        LuceneManager.getInstance().search("瞎扯");
         dataManager = new DataManager(getActivity());
         if (TextUtils.isEmpty(id)) {
             onLoadError();

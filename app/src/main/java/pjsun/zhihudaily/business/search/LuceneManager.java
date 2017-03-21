@@ -8,6 +8,7 @@ import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
@@ -20,6 +21,7 @@ import org.apache.lucene.util.Version;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import pjsun.zhihudaily.business.bean.DailyResult;
@@ -45,6 +47,7 @@ public class LuceneManager {
     private static final String IMAGE = "image";
     private static final String TITLE = "title";
     private static final String ID = "id";
+    private static final String DATE = "date";
 
     private LuceneManager() {
         File file = new File(CACHE_PATH);
@@ -61,6 +64,7 @@ public class LuceneManager {
         try {
             IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_36, analyzer);
             indexWriter = new IndexWriter(directory, config);
+            String date = result.getDate();
             List<Story> stories = result.getStories();
             if (stories != null && stories.size() > 0) {
                 for (int i = 0; i < stories.size(); i++) {
@@ -72,6 +76,8 @@ public class LuceneManager {
                             Field.Index.ANALYZED));
                     doc.add(new Field(ID, story.getId(), Field.Store.YES,
                             Field.Index.ANALYZED));
+                    doc.add(new Field(DATE, date, Field.Store.YES,
+                            Field.Index.ANALYZED));
                     indexWriter.addDocument(doc);
                 }
             }
@@ -79,7 +85,19 @@ public class LuceneManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    public void deleteIndex(String date) {
+        try {
+            IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_36, analyzer);
+            IndexWriter indexWriter = new IndexWriter(directory, config);
+            indexWriter.deleteDocuments(new Term(DATE, date));
+            indexWriter.close();
+        } catch (CorruptIndexException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public SearchResult search(String name) {

@@ -23,6 +23,7 @@ import pjsun.zhihudaily.ui.activity.GlobalSearchActivity;
 import pjsun.zhihudaily.ui.adapter.MainAdapter;
 import pjsun.zhihudaily.ui.adapter.OnRecyclerViewOnClickListener;
 import pjsun.zhihudaily.ui.fragment.base.BaseFragment;
+import pjsun.zhihudaily.utils.ZhihuDateUtils;
 
 /**
  * Created by sunpingji on 2017/3/8.
@@ -103,30 +104,38 @@ public class MainFragment extends BaseFragment {
     }
 
     private void onLoadSuccess(final DailyResult result) {
-        if (recyclerView.isRefresh()) {
-            recyclerView.setPullLoadMoreCompleted();
-            if (isResultValid(result)) {
-                stories = result.getStories();
-                mainAdapter.notifyDataSetChanged();
+        recyclerView.setPullLoadMoreCompleted();
+        if (isResultValid(result)) {
+            String newDate = result.getDate();
+            List<Story> newStories = result.getStories();
+            if (date == null || ZhihuDateUtils.isToday(newDate)) {
+                stories = newStories;
             } else {
-                onLoadError();
+                stories.addAll(newStories);
             }
+            date = newDate;
+            mainAdapter.refresh(stories);
         } else {
-            if (recyclerView.isLoadMore()) {
-                recyclerView.setPullLoadMoreCompleted();
-            }
-            if (isResultValid(result)) {
-                date = result.getDate();
-                List<Story> tmp = result.getStories();
-                if (tmp != null && tmp.size() > 0) {
-                    stories.addAll(tmp);
-                    mainAdapter.notifyDataSetChanged();
-                }
-            } else {
-                onLoadError();
-            }
+            onLoadError();
         }
-
+//        recyclerView.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (isResultValid(result)) {
+//                    String newDate = result.getDate();
+//                    List<Story> newStories = result.getStories();
+//                    if (date == null || ZhihuDateUtils.isToday(newDate)) {
+//                        stories = newStories;
+//                    } else {
+//                        date = newDate;
+//                        stories.addAll(newStories);
+//                    }
+//                    mainAdapter.notifyDataSetChanged();
+//                } else {
+//                    onLoadError();
+//                }
+//            }
+//        });
     }
 
     private boolean isResultValid(DailyResult result) {

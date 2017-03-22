@@ -135,7 +135,7 @@ public class DataManager implements IDataManage {
             result.save();
             indexResult(result, false);
         } else {
-            if (ZhihuDateUtils.isToday(date)) {
+            if (ZhihuDateUtils.isToday(date) && !list.get(0).equals(result)) {
                 long id = list.get(0).getBaseObjId();
                 result.update(id);
                 indexResult(result, true);

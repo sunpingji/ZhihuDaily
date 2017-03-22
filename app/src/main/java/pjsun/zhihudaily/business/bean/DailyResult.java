@@ -68,4 +68,28 @@ public class DailyResult extends BaseBean {
 
         return result;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DailyResult result = (DailyResult) o;
+
+        if (stories != null ? !stories.equals(result.stories) : result.stories != null)
+            return false;
+        if (topStories != null ? !topStories.equals(result.topStories) : result.topStories != null)
+            return false;
+        return date.equals(result.date);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = stories != null ? stories.hashCode() : 0;
+        result = 31 * result + (topStories != null ? topStories.hashCode() : 0);
+        result = 31 * result + date.hashCode();
+        return result;
+    }
 }

@@ -105,37 +105,24 @@ public class MainFragment extends BaseFragment {
 
     private void onLoadSuccess(final DailyResult result) {
         recyclerView.setPullLoadMoreCompleted();
-        if (isResultValid(result)) {
-            String newDate = result.getDate();
-            List<Story> newStories = result.getStories();
-            if (date == null || ZhihuDateUtils.isToday(newDate)) {
-                stories = newStories;
-            } else {
-                stories.addAll(newStories);
+        recyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                if (isResultValid(result)) {
+                    String newDate = result.getDate();
+                    List<Story> newStories = result.getStories();
+                    if (date == null || ZhihuDateUtils.isToday(newDate)) {
+                        stories = newStories;
+                    } else {
+                        stories.addAll(newStories);
+                    }
+                    date = newDate;
+                    mainAdapter.refresh(stories);
+                } else {
+                    onLoadError();
+                }
             }
-            date = newDate;
-            mainAdapter.refresh(stories);
-        } else {
-            onLoadError();
-        }
-//        recyclerView.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (isResultValid(result)) {
-//                    String newDate = result.getDate();
-//                    List<Story> newStories = result.getStories();
-//                    if (date == null || ZhihuDateUtils.isToday(newDate)) {
-//                        stories = newStories;
-//                    } else {
-//                        date = newDate;
-//                        stories.addAll(newStories);
-//                    }
-//                    mainAdapter.notifyDataSetChanged();
-//                } else {
-//                    onLoadError();
-//                }
-//            }
-//        });
+        });
     }
 
     private boolean isResultValid(DailyResult result) {

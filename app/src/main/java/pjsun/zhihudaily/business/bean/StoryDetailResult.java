@@ -41,7 +41,7 @@ public class StoryDetailResult extends BaseBean {
     private Integer type;
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private String zhihuId;
     @SerializedName("css")
     @Expose
     private List<String> css = null;
@@ -118,12 +118,12 @@ public class StoryDetailResult extends BaseBean {
         this.type = type;
     }
 
-    public Integer getId() {
-        return id;
+    public String getZhihuId() {
+        return zhihuId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setZhihuId(String zhihuId) {
+        this.zhihuId = zhihuId;
     }
 
     public List<String> getCss() {
@@ -132,6 +132,23 @@ public class StoryDetailResult extends BaseBean {
 
     public void setCss(List<String> css) {
         this.css = css;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        StoryDetailResult result = (StoryDetailResult) o;
+
+        return zhihuId != null ? zhihuId.equals(result.zhihuId) : result.zhihuId == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return zhihuId != null ? zhihuId.hashCode() : 0;
     }
 
     public static StoryDetailResult convertToResult(String s) {

@@ -99,6 +99,7 @@ public class DataManager implements IDataManage {
                 public void onSuccess(String s, Call call, Response response) {
                     StoryDetailResult result = StoryDetailResult.convertToResult(s);
                     dataCallBack.onSuccess(result);
+                    saveDetailResult(result);
                 }
 
                 @Override
@@ -108,6 +109,14 @@ public class DataManager implements IDataManage {
             });
         } else {
             dataCallBack.onError();
+        }
+    }
+
+    private void saveDetailResult(StoryDetailResult result) {
+        List<StoryDetailResult> list = DataSupport.where("zhihuId = ?", result.getZhihuId())
+                .find(StoryDetailResult.class);
+        if (list == null || list.size() == 0) {
+            result.save();
         }
     }
 

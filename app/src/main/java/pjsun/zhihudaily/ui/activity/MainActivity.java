@@ -10,7 +10,6 @@ import pjsun.zhihudaily.R;
 import pjsun.zhihudaily.ui.activity.base.BaseActivity;
 import pjsun.zhihudaily.ui.fragment.MainFragment;
 
-import static android.support.v7.app.AppCompatDelegate.MODE_NIGHT_AUTO;
 import static android.support.v7.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static android.support.v7.app.AppCompatDelegate.MODE_NIGHT_YES;
 
@@ -25,6 +24,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initData() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getFragmentManager().beginTransaction().replace(R.id.fl_container, new MainFragment()).commitAllowingStateLoss();
     }
 
@@ -46,6 +46,9 @@ public class MainActivity extends BaseActivity {
                 int mode = AppCompatDelegate.getDefaultNightMode() == MODE_NIGHT_YES ? MODE_NIGHT_NO : MODE_NIGHT_YES;
                 AppCompatDelegate.setDefaultNightMode(mode);
                 recreate();
+                return true;
+            case R.id.action_about:
+                SettingsActivity.start(this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

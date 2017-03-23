@@ -24,6 +24,6 @@ public class MainApplication extends Application {
         Utils.init(this);
         LitePal.initialize(this);
         Stetho.initializeWithDefaults(this);
-        CrashReport.initCrashReport(getApplicationContext(), "28fd1d7829 ", true);
+        CrashReport.initCrashReport(getApplicationContext(), "28fd1d7829 ", false);
     }
 }

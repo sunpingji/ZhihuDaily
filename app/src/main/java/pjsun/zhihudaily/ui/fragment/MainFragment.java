@@ -8,7 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.blankj.utilcode.utils.LogUtils;
 import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,10 +106,10 @@ public class MainFragment extends BaseFragment {
     }
 
     private void onLoadSuccess(final DailyResult result) {
-        recyclerView.setPullLoadMoreCompleted();
         recyclerView.post(new Runnable() {
             @Override
             public void run() {
+                recyclerView.setPullLoadMoreCompleted();
                 if (isResultValid(result)) {
                     String newDate = result.getDate();
                     List<Story> newStories = result.getStories();

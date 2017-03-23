@@ -67,6 +67,10 @@ public class DataManager implements IDataManage {
     }
 
     private void queryNew(final DataCallBack dataCallBack) {
+        DailyResult localResult = loadLocal(ZhihuDateUtils.getToday());
+        if (localResult != null) {
+            dataCallBack.onSuccess(localResult);
+        }
         if (NetworkUtils.isConnected()) {
             OkGo.get(API.NEWS).execute(new StringCallback() {
                 @Override
@@ -81,13 +85,6 @@ public class DataManager implements IDataManage {
                     dataCallBack.onError();
                 }
             });
-        } else {
-            DailyResult localResult = loadLocal(ZhihuDateUtils.getToday());
-            if (localResult != null) {
-                dataCallBack.onSuccess(localResult);
-            } else {
-                dataCallBack.onError();
-            }
         }
     }
 

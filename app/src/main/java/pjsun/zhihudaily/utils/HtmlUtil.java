@@ -38,6 +38,9 @@ public class HtmlUtil {
      * @return String
      */
     public static String createCssTag(List<String> urls) {
+        if (urls == null){
+            return "";
+        }
         final StringBuilder sb = new StringBuilder();
         for (String url : urls) {
             sb.append(createCssTag(url));
@@ -63,7 +66,9 @@ public class HtmlUtil {
      * @return String
      */
     public static String createJsTag(List<String> urls) {
-
+        if (urls == null){
+            return "";
+        }
         final StringBuilder sb = new StringBuilder();
         for (String url : urls) {
             sb.append(createJsTag(url));

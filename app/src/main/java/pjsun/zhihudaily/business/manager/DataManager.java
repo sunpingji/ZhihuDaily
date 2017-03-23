@@ -25,12 +25,15 @@ import pjsun.zhihudaily.utils.ZhihuDateUtils;
  */
 public class DataManager implements IDataManage {
 
-    private Context context;
+    private static DataManager instance = new DataManager();
 
-    public DataManager(Context context) {
-        this.context = context;
+    private DataManager() {
+
     }
 
+    public static DataManager getInstance() {
+        return instance;
+    }
 
     @Override
     public void getDailyResult(String date, final DataCallBack dataCallBack) {
@@ -90,7 +93,10 @@ public class DataManager implements IDataManage {
 
     @Override
     public void getStoryDetailResult(String id, final DataCallBack dataCallBack) {
-        if (NetworkUtils.isConnected()) {
+        StoryDetailResult storyDetailResult = loadDetailLocal(id);
+        if (storyDetailResult != null) {
+            dataCallBack.onSuccess(storyDetailResult);
+        } else if (NetworkUtils.isConnected()) {
             OkGo.get(API.DETAILS + id).execute(new StringCallback() {
                 @Override
                 public void onSuccess(String s, Call call, Response response) {
@@ -106,6 +112,16 @@ public class DataManager implements IDataManage {
             });
         } else {
             dataCallBack.onError();
+        }
+    }
+
+    private StoryDetailResult loadDetailLocal(String id) {
+        List<StoryDetailResult> list = DataSupport.where("zhihuId = ?", id)
+                .find(StoryDetailResult.class);
+        if (list != null && list.size() > 0) {
+            return list.get(0);
+        } else {
+            return null;
         }
     }
 

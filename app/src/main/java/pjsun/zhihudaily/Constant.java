@@ -6,6 +6,7 @@ package pjsun.zhihudaily;
 
 public class Constant {
     public interface Extra {
-        public static final String EXTRA_ID = "extra_id";
+        String EXTRA_ID = "extra_id";
+        String EXTRA_DETAIL_RESULT = "extra_detail_result";
     }
 }

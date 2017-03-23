@@ -33,7 +33,6 @@ import pjsun.zhihudaily.utils.ZhihuDateUtils;
 
 public class MainFragment extends BaseFragment {
 
-    private DataManager dataManager;
 
     private PullLoadMoreRecyclerView recyclerView;
 
@@ -62,7 +61,6 @@ public class MainFragment extends BaseFragment {
     }
 
     private void initData() {
-        dataManager = new DataManager(getActivity());
         stories = new ArrayList<Story>();
         mainAdapter = new MainAdapter(getActivity(), stories, new OnRecyclerViewOnClickListener() {
             @Override
@@ -80,7 +78,7 @@ public class MainFragment extends BaseFragment {
     }
 
     private void loadData() {
-        dataManager.getDailyResult(date, new DataCallBack<DailyResult>() {
+        DataManager.getInstance().getDailyResult(date, new DataCallBack<DailyResult>() {
             @Override
             public void onSuccess(DailyResult result) {
                 onLoadSuccess(result);

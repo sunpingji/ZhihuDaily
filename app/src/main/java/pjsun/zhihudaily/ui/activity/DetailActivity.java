@@ -18,6 +18,8 @@ import pjsun.zhihudaily.R;
 import pjsun.zhihudaily.business.bean.DailyResult;
 import pjsun.zhihudaily.business.bean.Story;
 import pjsun.zhihudaily.business.bean.StoryDetailResult;
+import pjsun.zhihudaily.business.manager.DataCallBack;
+import pjsun.zhihudaily.business.manager.DataManager;
 import pjsun.zhihudaily.ui.activity.base.BaseActivity;
 import pjsun.zhihudaily.ui.fragment.DetailFragment;
 
@@ -36,6 +38,9 @@ public class DetailActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
+    private String id;
+    private StoryDetailResult result = null;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +49,37 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void initData() {
-        getFragmentManager().beginTransaction().replace(R.id.fl_container, new DetailFragment()).commitAllowingStateLoss();
+        id = getIntent().getExtras().getString(Constant.Extra.EXTRA_ID);
+        DataManager.getInstance().getStoryDetailResult(id, new DataCallBack<StoryDetailResult>() {
+            @Override
+            public void onSuccess(StoryDetailResult result) {
+                onLoadSuccess(result);
+            }
+
+            @Override
+            public void onError() {
+                onLoadError();
+            }
+        });
+
+
+    }
+
+    private void onLoadError() {
+        loadFragment();
+    }
+
+    private void onLoadSuccess(StoryDetailResult result) {
+        this.result = result;
+        loadFragment();
+    }
+
+    private void loadFragment() {
+        DetailFragment fragment = new DetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constant.Extra.EXTRA_DETAIL_RESULT, result);
+        fragment.setArguments(bundle);
+        getFragmentManager().beginTransaction().replace(R.id.fl_container, fragment).commitAllowingStateLoss();
     }
 
     @Override
@@ -67,10 +102,7 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void share() {
-        List<StoryDetailResult> list = DataSupport.where("zhihuId = ?", getIntent().getStringExtra(Constant.Extra.EXTRA_ID))
-                .find(StoryDetailResult.class);
-        if (list != null && list.size() > 0) {
-            StoryDetailResult result = list.get(0);
+        if (result != null) {
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
             sendIntent.putExtra(Intent.EXTRA_TEXT, result.getTitle() + result.getShareUrl());

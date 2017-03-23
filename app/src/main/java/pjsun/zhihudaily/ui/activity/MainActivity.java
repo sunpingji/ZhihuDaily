@@ -42,7 +42,7 @@ public class MainActivity extends BaseActivity {
             case R.id.action_search:
                 GlobalSearchActivity.start(this);
                 return true;
-            case R.id.action_settings:
+            case R.id.action_night_mode:
                 int mode = AppCompatDelegate.getDefaultNightMode() == MODE_NIGHT_YES ? MODE_NIGHT_NO : MODE_NIGHT_YES;
                 AppCompatDelegate.setDefaultNightMode(mode);
                 recreate();

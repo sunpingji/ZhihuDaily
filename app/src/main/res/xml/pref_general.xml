@@ -2,14 +2,14 @@
 
     <Preference
         android:key="index"
-        android:summary="Remove index"
-        android:title="Remove index"></Preference>
+        android:summary="@string/settings_index_des"
+        android:title="@string/settings_index_title"></Preference>
 
 
     <Preference
         android:key="About"
-        android:summary="About me"
-        android:title="about"></Preference>
+        android:summary="@string/settings_about_des"
+        android:title="@string/settings_about_title"></Preference>
 
 
 </PreferenceScreen>

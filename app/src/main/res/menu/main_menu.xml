@@ -4,20 +4,20 @@
 
     <item
         android:id="@+id/action_search"
-        android:title="search"
         android:icon="@mipmap/ic_search"
+        android:title="search"
         app:showAsAction="ifRoom" />
 
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_night_mode"
         android:orderInCategory="100"
-        android:title="settings"
+        android:title="@string/night_mode"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_about"
         android:orderInCategory="101"
-        android:title="about"
+        android:title="@string/settings"
         app:showAsAction="never" />
 </menu>

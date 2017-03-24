@@ -1,7 +1,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <Preference
-        android:key="index"
+        android:key="Index"
         android:summary="@string/settings_index_des"
         android:title="@string/settings_index_title"></Preference>
 

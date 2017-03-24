@@ -87,16 +87,35 @@ public class LuceneManager {
         }
     }
 
-    public void deleteIndex(String date) {
+    public boolean deleteIndex(String date) {
         try {
             IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_36, analyzer);
             IndexWriter indexWriter = new IndexWriter(directory, config);
             indexWriter.deleteDocuments(new Term(DATE, date));
             indexWriter.close();
+            return true;
         } catch (CorruptIndexException e) {
             e.printStackTrace();
+            return false;
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean deleteIndex() {
+        try {
+            IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_36, analyzer);
+            IndexWriter indexWriter = new IndexWriter(directory, config);
+            indexWriter.deleteAll();
+            indexWriter.close();
+            return true;
+        } catch (CorruptIndexException e) {
+            e.printStackTrace();
+            return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 

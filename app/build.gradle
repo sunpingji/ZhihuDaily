@@ -11,8 +11,22 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+
+    signingConfigs {
+
+        release {
+            // keystore
+            storeFile file(KEYSTORE_FILE)
+            storePassword = storepassword
+            keyAlias = keyalias
+            keyPassword=keypassword
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -29,6 +43,7 @@ allprojects {
         maven { url "https://jitpack.io" }
     }
 }
+
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])

@@ -22,11 +22,11 @@ public class ProfileActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AboutView view = AboutBuilder.with(this)
-                .setPhoto(R.mipmap.profile_picture)
+                .setPhoto(R.mipmap.ic_profile)
                 .setCover(R.mipmap.profile_cover)
-                .setName("Your Full Name")
-                .setSubTitle("Mobile Developer")
-                .setBrief("I'm warmed of mobile technologies. Ideas maker, curious and nature lover.")
+                .setName("SunPingji")
+                .setSubTitle("Android Developer")
+                .setBrief("Just a programmer")
                 .setAppIcon(R.mipmap.ic_launcher)
                 .setAppName(R.string.app_name)
                 .addGooglePlayStoreLink("8002078663318221363")

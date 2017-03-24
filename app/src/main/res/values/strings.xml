@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ZhihuDaily</string>
+    <string name="app_name">知乎Daily</string>
     <string name="night_mode">夜间模式</string>
     <string name="settings">设置</string>
     <string name="about">关于</string>

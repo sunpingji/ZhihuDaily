@@ -4,7 +4,7 @@
     android:id="@+id/activity_global_search"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="pjsun.zhihudaily.ui.activity.GlobalSearchActivity">
+    tools:context="pjsun.alias.ui.activity.GlobalSearchActivity">
     <FrameLayout
         android:id="@+id/fl_container"
         android:layout_width="match_parent"

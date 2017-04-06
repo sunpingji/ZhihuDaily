@@ -7,6 +7,6 @@
 /build
 /captures
 .externalNativeBuild
-release.jks
-gradle.properties
+/release.jks
+/gradle.properties
 
